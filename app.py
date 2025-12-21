@@ -158,13 +158,23 @@ if uploaded_file is not None:
     #button of analysis.
     if st.sidebar.button("Show Analysis"):
         st.balloons() # Visual celebration effect
-        num_messages = helper.fetch_stats(selected_user,df)
+        num_messages , words,num_media, num_links = helper.fetch_stats(selected_user,df)
 
         # Placeholder for the data visualizations
         col1,col2,col3,col4 = st.columns(4)
         with col1:
             st.markdown('<p style="color:#075E54; font-size:24px; font-weight:bold;">Total Messages</p>', unsafe_allow_html=True)
             st.markdown(f'<h1 style="color:#25D366;">{num_messages}</h1>', unsafe_allow_html=True)
+        with col2:
+            st.markdown('<p style="color:#075E54; font-size:24px; font-weight:bold;">Total Words</p>', unsafe_allow_html=True)
+            st.markdown(f'<h1 style="color:#25D366;">{words}</h1>', unsafe_allow_html=True)
+        with col3:
+            st.markdown('<p style="color:#075E54; font-size:24px; font-weight:bold;">Media Shaird</p>', unsafe_allow_html=True)
+            st.markdown(f'<h1 style="color:#25D366;">{num_media}</h1>', unsafe_allow_html=True)
+        with col4:
+            st.markdown('<p style="color:#075E54; font-size:24px; font-weight:bold;">Number of Links</p>', unsafe_allow_html=True)
+            st.markdown(f'<h1 style="color:#25D366;">{num_links}</h1>', unsafe_allow_html=True)
+   
         
         # We use st.metric for a clean dashboard look
         
