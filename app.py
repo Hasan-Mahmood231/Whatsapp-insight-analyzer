@@ -1,6 +1,7 @@
 import streamlit as st
 import preprocessor
 import helper
+import matplotlib.pyplot as plt
 # --- 1. PAGE CONFIGURATION ---
 # Sets the tab title, icon, and expands the layout to use the full screen width
 st.set_page_config(
@@ -174,10 +175,25 @@ if uploaded_file is not None:
         with col4:
             st.markdown('<p style="color:#075E54; font-size:24px; font-weight:bold;">Number of Links</p>', unsafe_allow_html=True)
             st.markdown(f'<h1 style="color:#25D366;">{num_links}</h1>', unsafe_allow_html=True)
-   
         
-        # We use st.metric for a clean dashboard look
-        
+        #finding most busy user in group chat only.
+        if selected_user == 'Overall':
+            st.title('Most Active Users')
+            x = helper.fetch_active_user(df)
+            
+            # Create the figure
+            fig, ax = plt.subplots()
+            
+            col1, col2 = st.columns(2)
+
+            with col1:
+                # Check if x is a Series before calling .index or .values
+                if isinstance(x, str):
+                    st.error(x) # Shows the error message if x is a string
+                else:
+                    ax.bar(x.index, x.values, color='red')
+                    plt.xticks(rotation='vertical')
+                    st.pyplot(fig)
         
 else:
     # If no file is uploaded, show a helpful prompt

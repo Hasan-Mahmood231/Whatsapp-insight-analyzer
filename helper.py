@@ -22,3 +22,9 @@ def fetch_stats(selected_user,df):
 
 
     return num_message,len(words),num_media,len(links)
+
+
+#function to fetch most active user.
+def fetch_active_user(df):
+    # Ensure you are returning the value_counts, which is a Series
+    return df['user'].value_counts().head()
