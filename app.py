@@ -132,7 +132,7 @@ st.markdown("""
 # Intro Description - Occupying the main center space
 st.markdown("""
     <div class="info-card">
-        <h3>👋 Welcome to the Analyzer!</h3>
+        <h3> Welcome to the Analyzer!</h3>
         <p>This application takes your exported WhatsApp chat history and provides a visual 
         breakdown of your messaging habits. By uploading your file, you can unlock data regarding 
     </div>
@@ -143,7 +143,7 @@ st.write("") # Adding a small space
 # --- 5. LOGIC & ACTION BUTTON ---
 if uploaded_file is not None:
     # If a file is detected, show a success message
-    st.success("✅ Chat file detected and ready for processing!")
+    st.success("Chat file detected and ready for processing!")
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode('utf-8')
     df = preprocessor.preprocess(data)
