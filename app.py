@@ -179,7 +179,7 @@ if uploaded_file is not None:
         #finding most busy user in group chat only.
         if selected_user == 'Overall':
             st.title('Most Active Users')
-            x = helper.fetch_active_user(df)
+            x ,user_df = helper.fetch_active_user(df)
             
             # Create the figure
             fig, ax = plt.subplots()
@@ -191,10 +191,17 @@ if uploaded_file is not None:
                 if isinstance(x, str):
                     st.error(x) # Shows the error message if x is a string
                 else:
-                    ax.bar(x.index, x.values, color='red')
+                    ax.bar(x.index, x.values, color='skyblue')
                     plt.xticks(rotation='vertical')
                     st.pyplot(fig)
-        
+
+            with col2:
+                st.dataframe(user_df)
+
+        df_wc = helper.create_wordcloud(selected_user,df)
+        fig,ax = plt.subplots()
+        ax.imshow(df_wc)
+        st.pyplot(fig)
 else:
     # If no file is uploaded, show a helpful prompt
     pass

@@ -1,5 +1,7 @@
 
 from urlextract import URLExtract
+from wordcloud import WordCloud
+
 extract = URLExtract()
 def fetch_stats(selected_user,df):
     #group level analyses
@@ -27,4 +29,16 @@ def fetch_stats(selected_user,df):
 #function to fetch most active user.
 def fetch_active_user(df):
     # Ensure you are returning the value_counts, which is a Series
-    return df['user'].value_counts().head()
+    x =  df['user'].value_counts().head()
+    user_df = round((df['user'].value_counts()/df.shape[0])*100,2).reset_index().rename(columns = {'index':'name','user':'percent'})
+
+    return x,user_df
+
+#wordcloud 
+def create_wordcloud(selected_user,df):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    wc = WordCloud(width = 500,height = 500,min_font_size = 10,background_color = 'white')
+    df_wc = wc.generate(df['message'].str.cat(sep=' '))
+    return df_wc
