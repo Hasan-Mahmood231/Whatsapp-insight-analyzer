@@ -102,6 +102,8 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- 3. SIDEBAR CONTENT ---
+
+
 with st.sidebar:
     # Adding the official logo (or an icon)
     st.image("https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg", width=100)
@@ -120,6 +122,8 @@ with st.sidebar:
     st.info("💡 Make sure you exported the chat without media for a faster analysis.")
 
 # --- 4. MAIN PAGE CONTENT ---
+
+
 
 # The Styled Heading Block (Uses the CSS classes defined above)
 st.markdown("""
@@ -141,6 +145,8 @@ st.markdown("""
 st.write("") # Adding a small space
 
 # --- 5. LOGIC & ACTION BUTTON ---
+
+
 if uploaded_file is not None:
     # If a file is detected, show a success message
     st.success("Chat file detected and ready for processing!")
@@ -227,6 +233,7 @@ if uploaded_file is not None:
         #most common use words 
         # 1. Get the data
     most_common_df = helper.most_common_words(selected_user, df)
+    
 
     # 2. FIX: Use subplots() (with an 's') and name variables fig and ax
     fig, ax = plt.subplots()
