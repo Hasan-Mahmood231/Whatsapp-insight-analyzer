@@ -147,7 +147,8 @@ if uploaded_file is not None:
     bytes_data = uploaded_file.getvalue()
     data = bytes_data.decode('utf-8')
     df = preprocessor.preprocess(data)
-    st.dataframe(df)
+
+
     # The Action Button to trigger the backend (Analysis)
     user_list = df['user'].unique().tolist()
     if 'group_notification' in user_list:
@@ -176,9 +177,29 @@ if uploaded_file is not None:
             st.markdown('<p style="color:#075E54; font-size:24px; font-weight:bold;">Number of Links</p>', unsafe_allow_html=True)
             st.markdown(f'<h1 style="color:#25D366;">{num_links}</h1>', unsafe_allow_html=True)
         
+
+        #timeline of monthly messages.
+
+        timeline = helper.monthly_timline(selected_user,df)
+        fig,ax = plt.subplots()
+        ax.plot(timeline['time'],timeline['message'])
+        plt.xticks(rotation = 'vertical')
+        st.pyplot(fig)
+
+        #activity map
+        st. title("Activity map")
+        col1,col2 =  st.columns(2)
+
+        with col1:
+            st.markdown('<p style="color:#075E54; font-size:30px; font-weight:bold;">Most busy day</p>', unsafe_allow_html=True)
+            busy_day = helper.week_activity_map(selected_user,df)
+            fig,ax = plt.subplots()
+            ax.bar(busy_day.index,busy_day.values)
+            st.pyplot(fig)
+
         #finding most busy user in group chat only.
         if selected_user == 'Overall':
-            st.title('Most Active Users')
+            st.markdown('<p style="color:#075E54; font-size:30px; font-weight:bold;">Most Active user</p>', unsafe_allow_html=True)
             x ,user_df = helper.fetch_active_user(df)
             
             # Create the figure
@@ -197,12 +218,35 @@ if uploaded_file is not None:
 
             with col2:
                 st.dataframe(user_df)
-
+                
         df_wc = helper.create_wordcloud(selected_user,df)
         fig,ax = plt.subplots()
         ax.imshow(df_wc)
         st.pyplot(fig)
+
+        #most common use words 
+        # 1. Get the data
+    most_common_df = helper.most_common_words(selected_user, df)
+
+    # 2. FIX: Use subplots() (with an 's') and name variables fig and ax
+    fig, ax = plt.subplots()
+
+    # 3. Use 'ax' to create the horizontal bar chart
+    ax.barh(most_common_df[0], most_common_df[1])
+
+    # 4. Rotate labels if needed
+    plt.xticks(rotation='vertical')
+
+    # 5. Display the plot in Streamlit
+    st.pyplot(fig)
+
+    #emoji analysis.
+    st.title("Top Emojis Used in Chat")
+    emoji_df = helper.emoji_hepler(selected_user,df)
+    st.dataframe(emoji_df)
+
 else:
+
     # If no file is uploaded, show a helpful prompt
     pass
 # --- FOOTER ---
